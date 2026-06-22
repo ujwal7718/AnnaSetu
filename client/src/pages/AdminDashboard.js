@@ -82,10 +82,10 @@ const AdminDashboard = () => {
 
       try {
         const [statsRes, donationsRes, volunteersRes, mapDataRes] = await Promise.all([
-          axios.get('http://localhost:5001/api/admin/dashboard', { ...config, signal: controller.signal }),
-          axios.get('http://localhost:5001/api/admin/donations', { ...config, signal: controller.signal }),
-          axios.get('http://localhost:5001/api/admin/users', { ...config, signal: controller.signal }),
-          axios.get('http://localhost:5001/api/admin/map-data', { ...config, signal: controller.signal })
+          axios.get(`${API_BASE_URL}/api/admin/dashboard`, { ...config, signal: controller.signal }),
+          axios.get(`${API_BASE_URL}/api/admin/donations`, { ...config, signal: controller.signal }),
+          axios.get(`${API_BASE_URL}/api/admin/users`, { ...config, signal: controller.signal }),
+          axios.get(`${API_BASE_URL}/api/admin/map-data`, { ...config, signal: controller.signal })
         ]);
 
         clearTimeout(timeoutId);
