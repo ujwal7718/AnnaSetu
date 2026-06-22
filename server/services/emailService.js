@@ -57,10 +57,11 @@ const createTransporter = () => {
       // but the actual value must have no spaces.
       pass: emailPass.replace(/\s/g, '')
     },
-    tls: {
-      // Do not fail on self-signed certs in development
-      rejectUnauthorized: process.env.NODE_ENV === 'production'
-    }
+   requireTLS: true,
+  tls: {
+    family: 4,
+    rejectUnauthorized: false
+  }
   });
 };
 
