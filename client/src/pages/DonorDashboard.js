@@ -9,8 +9,9 @@ import SocialShare from '../components/SocialShare';
 import FeedbackModal from '../components/FeedbackModal';
 import Logo from '../components/Logo';
 import { Card, StatCard, Button, EmptyState, StatusBadge } from '../components/ui';
+import API_BASE_URL from '../config/api';
 
-const API_BASE = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API_BASE = API_BASE_URL;
 
 // ─── Toast component ──────────────────────────────────────────────────────────
 // Self-contained; auto-dismisses after `duration` ms.

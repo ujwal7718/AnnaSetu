@@ -10,6 +10,7 @@ import ImageModal from '../components/ImageModal';
 import FeedbackAnalytics from '../components/FeedbackAnalytics';
 import VolunteerPendingScreen from './VolunteerPendingScreen';
 import { Card, StatCard, Badge, StatusBadge, Button, EmptyState } from '../components/ui';
+import API_BASE_URL, { getImageUrl } from '../config/api';
 
 const VolunteerDashboard = () => {
   const [assignedDonationsState, setAssignedDonationsState] = useState([]); // assigned_to_volunteer status
@@ -45,8 +46,8 @@ const VolunteerDashboard = () => {
         // Fetch donations assigned to this volunteer (NGO-mediated workflow)
         // This endpoint only returns donations with assignedVolunteer === user._id
         const [assignedRes, assignmentsRes] = await Promise.all([
-          axios.get('http://localhost:5001/api/donations/volunteer-assigned', { ...config, signal: controller.signal }),
-          axios.get('http://localhost:5001/api/volunteers/my-assignments', { ...config, signal: controller.signal })
+          axios.get(`${API_BASE_URL}/api/donations/volunteer-assigned`, { ...config, signal: controller.signal }),
+          axios.get(`${API_BASE_URL}/api/volunteers/my-assignments`, { ...config, signal: controller.signal })
         ]);
 
         clearTimeout(timeoutId);
@@ -138,7 +139,7 @@ const VolunteerDashboard = () => {
 
       console.log('Verifying OTP for donation:', otpDonationId);
       await axios.post(
-        `http://localhost:5001/api/donations/${otpDonationId}/verify-pickup`,
+        `${API_BASE_URL}/api/donations/${otpDonationId}/verify-pickup`,
         { otp: otpValue },
         config
       );
@@ -167,7 +168,7 @@ const VolunteerDashboard = () => {
       };
 
       console.log('Updating status for donation:', donationId, 'to:', status);
-      await axios.patch(`http://localhost:5001/api/donations/${donationId}/status`, { status }, config);
+      await axios.patch(`${API_BASE_URL}/api/donations/${donationId}/status`, { status }, config);
       
       console.log('Status updated, refreshing data...');
       // Refresh data from backend - essential to get the updated status
@@ -208,7 +209,7 @@ const VolunteerDashboard = () => {
       console.log('Toggling availability to:', newAvailability);
       
       // Call API to update availability in database
-      const response = await axios.patch('http://localhost:5001/api/volunteers/availability', 
+      const response = await axios.patch(`${API_BASE_URL}/api/volunteers/availability`, 
         { isAvailable: newAvailability }, config);
       
       console.log('API response:', response.data);
@@ -379,12 +380,12 @@ const VolunteerDashboard = () => {
                       {donation.images && donation.images.length > 0 && (
                         <div className="relative h-48 bg-gray-100">
                           <img
-                            src={`http://localhost:5001${donation.images[0]}`}
+                            src={getImageUrl(donation.images[0])}
                             alt={donation.foodType}
                             className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
                             onClick={() =>
                               openImageModal(
-                                `http://localhost:5001${donation.images[0]}`,
+                                getImageUrl(donation.images[0]),
                                 donation.foodType
                               )
                             }

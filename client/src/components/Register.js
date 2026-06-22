@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import Logo from './Logo';
+import API_BASE_URL from '../config/api';
 
 // ─── Pure validation helpers (no side-effects) ───────────────────────────────
 
@@ -158,7 +159,7 @@ const Register = () => {
   useEffect(() => {
     if (formData.role === 'volunteer' && ngos.length === 0) {
       setNgosLoading(true);
-      fetch('http://localhost:5001/api/auth/approved-ngos')
+      fetch(`${API_BASE_URL}/api/auth/approved-ngos`)
         .then(res => res.json())
         .then(data => {
           setNgos(data);

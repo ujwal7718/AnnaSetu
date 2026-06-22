@@ -138,6 +138,7 @@ const initializeServer = async () => {
   
   try {
     // Connect to MongoDB first
+    console.log('📦 Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -145,7 +146,13 @@ const initializeServer = async () => {
     console.log('✅ MongoDB connected');
 
     // Verify email transporter credentials (non-fatal — server still starts)
-    await verifyTransporter();
+    console.log('📧 Verifying email transporter...');
+    try {
+      await verifyTransporter();
+    } catch (emailError) {
+      console.warn('⚠️ Email transporter verification threw an error (non-fatal):', emailError.message);
+    }
+    console.log('✅ Email verification check complete');
 
     // Start server only once
     if (serverInstance) {
@@ -153,7 +160,7 @@ const initializeServer = async () => {
       return serverInstance;
     }
 
-    serverInstance = app.listen(PORT, () => {
+    serverInstance = server.listen(PORT, () => {
       console.log(`🚀 Server running successfully on port ${PORT}`);
       console.log(`🌐 Access at: http://localhost:${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/health`);
@@ -189,6 +196,13 @@ const initializeServer = async () => {
 };
 
 // Start the server
-initializeServer();
+console.log('🚀 Starting initialization...');
+initializeServer().then(() => {
+  console.log('✅ Initialization complete');
+}).catch((err) => {
+  console.error('❌ Initialization failed:', err.message);
+  console.error(err.stack);
+  process.exit(1);
+});
 
 module.exports = app;

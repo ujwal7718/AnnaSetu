@@ -11,6 +11,7 @@ import CalendarIntegration from '../components/CalendarIntegration';
 import Logo from '../components/Logo';
 import { StatusBadge, Button } from '../components/ui';
 import { filterDonationsWithinRadius, calculateDistance } from '../utils/donationUtils';
+import API_BASE_URL from '../config/api';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -931,7 +932,7 @@ export default AdminDashboard;
 // tab. Fetches NGO lists independently so it doesn't affect the main dashboard
 // data flow or loading states.
 
-const API_BASE = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API_BASE = API_BASE_URL;
 
 const NGOApprovalPanel = () => {
   const [filter, setFilter]       = React.useState('pending');

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Globe, Users, Package } from 'lucide-react';
+import API_BASE_URL from '../config/api';
 
-const API_BASE = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API_BASE = API_BASE_URL;
 
 const NGOPage = () => {
   // Hardcoded Santulan Bhavan - always display

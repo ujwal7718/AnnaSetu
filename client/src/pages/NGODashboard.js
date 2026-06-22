@@ -15,8 +15,9 @@ import {
   Card, StatCard, Badge, StatusBadge, Button,
   EmptyState
 } from '../components/ui';
+import API_BASE_URL from '../config/api';
 
-const API = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API = API_BASE_URL;
 
 // ─── Auth header helper ───────────────────────────────────────────────────────
 const authHeader = () => ({

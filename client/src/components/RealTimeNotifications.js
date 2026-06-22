@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
+import API_BASE_URL from '../config/api';
 
 const RealTimeNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -16,7 +17,7 @@ const RealTimeNotifications = () => {
     console.log('RealTimeNotifications: User role:', user.role);
 
     // Initialize socket connection
-    const newSocket = io(process.env.REACT_APP_SERVER_URL || 'http://localhost:5001', {
+    const newSocket = io(API_BASE_URL, {
       auth: {
         token: localStorage.getItem('token')
       }

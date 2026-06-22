@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, TrendingUp, AlertCircle, RefreshCw } from 'lucide-react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const AIInsights = ({ ngoId }) => {
   const [analysis, setAnalysis] = useState(null);
@@ -30,7 +31,7 @@ const AIInsights = ({ ngoId }) => {
         }
       };
 
-      const url = `http://localhost:5001/api/feedback-analysis/${ngoId}`;
+      const url = `${API_BASE_URL}/api/feedback-analysis/${ngoId}`;
       console.log(`   Request URL: ${url}`);
       console.log(`   Token present: ${!!token}`);
 
@@ -69,7 +70,7 @@ const AIInsights = ({ ngoId }) => {
         }
       };
 
-      const url = `http://localhost:5001/api/feedback-analysis/${ngoId}/regenerate`;
+      const url = `${API_BASE_URL}/api/feedback-analysis/${ngoId}/regenerate`;
       console.log(`   Request URL: ${url}`);
 
       const response = await axios.post(url, {}, config);

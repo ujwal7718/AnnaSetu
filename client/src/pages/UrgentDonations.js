@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import Logo from '../components/Logo';
 import { isUrgent, filterDonationsWithinRadius, calculateDistance } from '../utils/donationUtils';
+import API_BASE_URL, { getImageUrl } from '../config/api';
 
 const UrgentDonations = () => {
   const [urgentDonations, setUrgentDonations] = useState([]);
@@ -24,7 +25,7 @@ const UrgentDonations = () => {
 
       console.log('Fetching urgent donations...');
       
-      const response = await axios.get('http://localhost:5001/api/admin/donations', config);
+      const response = await axios.get(`${API_BASE_URL}/api/admin/donations`, config);
       const allDonations = response.data?.donations || [];
       
       // Use common utility functions for consistent filtering
@@ -167,7 +168,7 @@ const UrgentDonations = () => {
                       {donation.images.map((image, imgIndex) => (
                         <img
                           key={imgIndex}
-                          src={`http://localhost:5001${image}`}
+                          src={getImageUrl(image)}
                           alt={`${donation.foodType} ${imgIndex + 1}`}
                           className="w-full h-32 object-cover rounded-lg border border-gray-200"
                         />

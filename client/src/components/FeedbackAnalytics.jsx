@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MessageSquare, TrendingUp } from 'lucide-react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const FeedbackAnalytics = ({ userId, feedbackType = null }) => {
   const [analytics, setAnalytics] = useState({
@@ -32,7 +33,7 @@ const FeedbackAnalytics = ({ userId, feedbackType = null }) => {
           }
         };
 
-        let url = `http://localhost:5001/api/feedback/${userId}`;
+        let url = `${API_BASE_URL}/api/feedback/${userId}`;
         if (feedbackType) {
           url += `?type=${feedbackType}`;
         }

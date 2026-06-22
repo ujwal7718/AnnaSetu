@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
-const API_BASE = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API_BASE = API_BASE_URL;
 
 const EMPTY_FORM = {
   foodType: 'vegetarian',

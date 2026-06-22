@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star } from 'lucide-react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const FeedbackModal = ({ isOpen, onClose, donation, feedbackType, currentUserRole, onSuccess }) => {
   const [rating, setRating] = useState(0);
@@ -34,7 +35,7 @@ const FeedbackModal = ({ isOpen, onClose, donation, feedbackType, currentUserRol
         feedbackType
       };
 
-      await axios.post('http://localhost:5001/api/feedback', payload, config);
+      await axios.post(`${API_BASE_URL}/api/feedback`, payload, config);
       
       setSuccess(true);
       

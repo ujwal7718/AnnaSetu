@@ -78,10 +78,29 @@ const verifyTransporter = async () => {
   const transporter = createTransporter();
 
   try {
+    console.log('🔍 DEBUG: Attempting transporter.verify()...');
+    console.log('   EMAIL_HOST:', emailHost);
+    console.log('   EMAIL_PORT:', emailPort);
+    console.log('   EMAIL_USER:', emailUser);
+    console.log('   EMAIL_PASS length:', emailPass.length);
+    console.log('   EMAIL_PASS stripped (no spaces):', emailPass.replace(/\s/g, '').length);
+    console.log('   Transporter config:', {
+      host: emailHost,
+      port: emailPort,
+      secure: emailPort === 465
+    });
+    
     await transporter.verify();
     console.log(`✅ Email transporter verified — ready to send from ${emailUser}`);
     return true;
   } catch (err) {
+    console.error('🔍 DEBUG: Full error object:');
+    console.error('   Code:', err.code);
+    console.error('   Message:', err.message);
+    console.error('   ResponseCode:', err.responseCode);
+    console.error('   Response:', err.response);
+    console.error('   Command:', err.command);
+    
     // Decode the most common Gmail error codes into actionable messages
     let hint = '';
 
@@ -109,6 +128,29 @@ const verifyTransporter = async () => {
       hint = `\n  Hint: Could not connect to ${emailHost}:${emailPort}. Check EMAIL_HOST and EMAIL_PORT.`;
     } else if (err.code === 'ETIMEDOUT') {
       hint = `\n  Hint: Connection timed out. Your network may be blocking port ${emailPort}.`;
+    } else if (err.message && err.message.includes('bad auth')) {
+      hint = [
+        '',
+        '  ╔══════════════════════════════════════════════════════════╗',
+        '  ║  SMTP "bad auth" Error                                   ║',
+        '  ╠══════════════════════════════════════════════════════════╣',
+        '  ║  Possible causes:                                        ║',
+        '  ║  1. Gmail App Password contains spaces in .env file      ║',
+        '  ║     → Copy fresh from Google account, paste WITHOUT      ║',
+        '  ║     → spaces (we strip them, but verify in .env)         ║',
+        '  ║  2. Normal Gmail password used instead of App Password   ║',
+        '  ║  3. Gmail account has 2-Step Verification disabled       ║',
+        '  ║  4. App Password has been revoked                        ║',
+        '  ║                                                          ║',
+        '  ║  Fix:                                                    ║',
+        '  ║  1. Go to https://myaccount.google.com/apppasswords      ║',
+        '  ║  2. Generate a fresh App Password for "Mail"             ║',
+        '  ║  3. Copy EXACTLY as shown (16 chars, may show spaces)    ║',
+        '  ║  4. Remove ALL spaces before pasting into .env           ║',
+        '  ║     (e.g., "abcd efgh ijkl mnop" → "abcdefghijklmnop")   ║',
+        '  ║  5. Restart server and test again                        ║',
+        '  ╚══════════════════════════════════════════════════════════╝',
+      ].join('\n');
     }
 
     console.error(`❌ Email transporter verification FAILED: ${err.message}${hint}`);

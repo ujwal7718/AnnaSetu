@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const AuthContext = createContext();
 
@@ -83,7 +84,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       setAuthToken(token);
       try {
-        const res = await axios.get('http://localhost:5001/api/auth/me');
+        const res = await axios.get(`${API_BASE_URL}/api/auth/me`);
         dispatch({
           type: 'LOGIN_SUCCESS',
           payload: { token, user: res.data }
@@ -116,7 +117,7 @@ export const AuthProvider = ({ children }) => {
   // Login user
   const login = async (formData) => {
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/login', formData);
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, formData);
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: res.data
@@ -137,7 +138,7 @@ export const AuthProvider = ({ children }) => {
   // verify their email before they can log in.
   const register = async (formData) => {
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/register', formData);
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, formData);
       // Do NOT dispatch LOGIN_SUCCESS — user is not authenticated yet
       return res.data; // { message, requiresVerification }
     } catch (error) {

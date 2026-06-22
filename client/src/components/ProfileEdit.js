@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
-const API_BASE = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API_BASE = API_BASE_URL;
 
 /**
  * ProfileEdit

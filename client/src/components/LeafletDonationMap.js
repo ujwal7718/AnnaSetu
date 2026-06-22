@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { getImageUrl } from '../config/api';
 
 // Fix for default markers in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -230,7 +231,7 @@ const LeafletDonationMap = ({ donations = [], volunteers = [], ngoLocation, radi
                       {donation.images.map((image, imgIndex) => (
                         <img
                           key={imgIndex}
-                          src={`http://localhost:5001${image}`}
+                          src={getImageUrl(image)}
                           alt={`Donation ${imgIndex + 1}`}
                           className="w-full h-20 object-cover rounded border border-gray-200"
                         />

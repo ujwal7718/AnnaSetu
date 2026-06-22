@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const API_BASE = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const API_BASE = API_BASE_URL;
 
 // Verification can be in one of four states:
 //   'loading'  – API call in flight

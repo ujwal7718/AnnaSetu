@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import { Eye, EyeOff } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { getImageUrl } from '../config/api';
 
 // Fix for default markers in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -409,7 +410,7 @@ const AdminMapEnhanced = ({ ngos = [], donations = [], volunteers = [] }) => {
                     {donation.images && donation.images.length > 0 && (
                       <div className="mt-2">
                         <img
-                          src={`http://localhost:5001${donation.images[0]}`}
+                          src={getImageUrl(donation.images[0])}
                           alt="Donation"
                           className="w-full h-24 object-cover rounded border border-gray-200"
                         />
