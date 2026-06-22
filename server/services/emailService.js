@@ -50,6 +50,7 @@ const createTransporter = () => {
     port: emailPort,
     // port 465 → implicit TLS (secure:true), port 587 → STARTTLS (secure:false)
     secure: emailPort === 465,
+    family: 4, // Force IPv4 (fixes Render IPv6 ENETUNREACH error)
     auth: {
       user: emailUser,
       // Strip spaces — Google shows App Passwords as "xxxx xxxx xxxx xxxx"
