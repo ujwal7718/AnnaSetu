@@ -6,7 +6,8 @@
  */
 
 // Base API URL - uses environment variable or defaults to localhost
-export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+// Supports REACT_APP_API_URL (current) and REACT_APP_SERVER_URL (for compatibility)
+export const API_BASE_URL = process.env.REACT_APP_API_URL || process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
 
 // API endpoints
 export const API_ENDPOINTS = {
